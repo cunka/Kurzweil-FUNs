@@ -38,6 +38,31 @@ results in a hundredfold change in the output value.
 Here are a few possible output values:
 
 
+[cols="1,1",options="header"]
+|===
+|Input Values |Output Value
+
+|a = +1, b = +1
+|+1
+|a = +1, b = 0 
+|0.01
+|a = +1, b = -1 
+|.0001
+|a = 0, b = +1 
+|0
+|a = 0, b = 0 
+|0
+|a = 0, b = -+1 
+|0
+|a = -1, b = +1 
+|-1
+|a = -1, b = 0 
+|-0.01
+|a = -1, b = -1 
+|-.0001
+|===
+
+
 == | a + b |
 
 The values of Inputs a and b are added, and the absolute value of the sum is taken. If the sum is 
