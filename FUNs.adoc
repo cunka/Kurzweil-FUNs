@@ -1,0 +1,40 @@
+
+== a + b
+
+The values of Input a and b are added, creating a simple mixer. 
+
+For example, you might have 
+LFO1 assigned for the Src2 parameter on a layer's PITCH page, and a FUN assigned for the DptCtl parameter. On the FUN page, if you set Input a to a value of MWheel, and Input b to a value of MPress, then this equation will let you modulate the depth of the LFO's pitch 
+modulation with your MIDI controller's Mod Wheel or with mono pressure. You could set a fixed initial depth with the Mod Wheel and alter it further with mono pressure. In this case the output signal would pin at +1 or -1 fairly quickly.
+
+== a - b
+This operates similarly to the previous equation, but the value of Input b is subtracted from the value of Input a. This equation will reverse the normal effect of the control source assigned to Input b. For example, if Input a is off, and Input b is assigned to a unipolar control source like MWheel, then the Mod Wheel will generate a control signal of -1 when fully down, and 0 when fully up.
+
+== (a + b) / 2
+The values of Inputs a and b are added, and the sum is divided by 2. This gives you the same kind of control as the previous two equations, but the output signal will reach +1 or -1 half as often as with the equation a + b.
+
+== a / 2 + b
+The value of Input a is divided by 2, and the result is added to the value of Input b. Input a has half the effect of Input b.
+
+== a / 4 + b / 2
+The value of Input a is divided by 4, and the value of Input b is divided by 2. The two results are added to give the output value. Input a has half the effect of Input b, and the total result has half 
+the effect of the previous equation.
+
+== (a + 2b) / 3
+The value of Input b is multiplied by 2, and the result is added to the value of Input a. This sum is then divided by 3. Input a has half the effect of Input b, and the total result has somewhat more effect than the previous equation, but less effect than a + b.
+
+== a  *  b
+The values of Inputs a and b are multiplied. If you like using Src2 and DptCtl, this equation can be used to create a similar type of control source (it's equivalent to the Src2/DptCtl pair with the 
+MinDpt parameter set to 0)
+
+== -a  *  b
+The value of Input a is multiplied by -1, then multiplied by the value of Input b. This will reverse 
+the normal effect of the control source assigned to Input a. This equation also produces an effect 
+like that of Src2 and DptCtl with the MinDpt parameter set to 0.
+
+== a * 10 ^ b
+The actual equation is:  a x ( 10 ^(2 x b)^ /100). 
+
+This is an exponential curve. 10 is raised to the (2 x b) power, then divided by 100. This result is then multiplied by a. Another way to express this is as follows: a change of 1 in the value of Input b 
+results in a hundredfold change in the output value. 
+Here are a few possible output values:
