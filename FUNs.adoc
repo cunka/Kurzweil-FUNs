@@ -3,9 +3,7 @@
 
 The values of Input a and b are added, creating a simple mixer. 
 
-For example, you might have 
-LFO1 assigned for the Src2 parameter on a layer's PITCH page, and a FUN assigned for the DptCtl parameter. On the FUN page, if you set Input a to a value of MWheel, and Input b to a value of MPress, then this equation will let you modulate the depth of the LFO's pitch 
-modulation with your MIDI controller's Mod Wheel or with mono pressure. You could set a fixed initial depth with the Mod Wheel and alter it further with mono pressure. In this case the output signal would pin at +1 or -1 fairly quickly.
+For example, you might have LFO1 assigned for the Src2 parameter on a layer's PITCH page, and a FUN assigned for the DptCtl parameter. On the FUN page, if you set Input a to a value of MWheel, and Input b to a value of MPress, then this equation will let you modulate the depth of the LFO's pitch modulation with your MIDI controller's Mod Wheel or with mono pressure. You could set a fixed initial depth with the Mod Wheel and alter it further with mono pressure. In this case the output signal would pin at +1 or -1 fairly quickly.
 
 == a - b
 This operates similarly to the previous equation, but the value of Input b is subtracted from the value of Input a. This equation will reverse the normal effect of the control source assigned to Input b. For example, if Input a is off, and Input b is assigned to a unipolar control source like MWheel, then the Mod Wheel will generate a control signal of -1 when fully down, and 0 when fully up.
@@ -49,3 +47,67 @@ negative, it is multiplied by -1. This makes the FUN a unipolar control source.
 
 The value of Input b is subtracted from the value of Input a, and the absolute value is taken. If 
 the difference is negative, it is multiplied by -1. This also makes the FUN unipolar.
+
+== min (a, b)
+
+The values of Inputs a and b are compared, and the smaller value becomes the output value. 
+This can be used to limit the value range of a control source. If, for example the value of the control source assigned to Input b is left at +.5, then when the value of the control source
+assigned to Input a is between -1 and +.5, its value will be used. As soon as its value exceeds +.5,
+the value of Input b is used.
+
+== max (a, b)
+
+This is the opposite of the previous equation. The values of Inputs a and b are compared, and the larger value becomes the output value.
+
+== Quantize b to a
+
+This turns the control source assigned to Input b into a stepped control source. Instead of smooth transitions from minimum to maximum, it will jump from minimum to maximum in some number of equal steps. The number of steps is determined by the value of Input a. The 
+normal real-time application of this is to set a stationary value for Input a to set the number of 
+steps in the effect. Then use the control source assigned to Input b as a real-time control to 
+induce the stepped effect. Changing the value of Input a in real time will produce an extraneous 
+(but possibly useful) effect.
+
+As an example, consider the FUN we set up at the beginning of the previous section:  the Mod 
+Wheel was assigned as Input a, and the data slider as Input b. The FUN was assigned as Src1 on 
+the PITCH page, and the depth of Src1 was set to 1200 cents. If you push the Mod Wheel all the 
+way up, the value of Input a will be +1. This will set the number of steps at 8, since the data 
+slider sends a unipolar control signal. With your MIDI controller's data slider at minimum, play 
+and sustain a note. Then move the data slider slowly up. The pitch of the note will jump up an 
+octave in 8 steps as you move the data slider all the way up.
+If the value of Input a is negative, it's multiplied by -1, so its value always falls within the ranges 
+above. When Input b is bipolar and the resulting number of steps is an odd number, the steps 
+are centered around a value of 0 --that is, the center step is equivalent to no effect from Input b. 
+When the number of steps is even, a value of zero is not included in the steps. This is also true 
+for the values marked by an asterisk when Input b is unipolar.
+
+== lowpass (f = a, b)
+
+This equation might be called a lag equation. Its effect is to introduce a delay in the K2600's 
+response to changes in the value of Input b. It works by filtering (reducing) higher values of 
+Input b. The value of Input a determines the degree to which the values of Input b are filtered. 
+Low values for Input a will induce a long lag when the value of Input b changes. High values 
+will shorten the lag. When Input b remains constant at a high level, low values of Input a will 
+cause the FUN to sweep up slowly from 0 to the value of Input b. Higher values for Input a will 
+cause the FUN to sweep more rapidly.
+The four graphs below show the effect of different values for Input a on the change of Input b. In 
+each graph, the value of Input b jumps from 0 to +1. In graph 1, the value of Input a is +1. Each 
+successive graph represents the same change in the value of Input b, at successively lower 
+values for Input a.
+This equation works as intended only when the value of Input a is 0 or positive. Negative values 
+for Input a will result in a much less predictable response than positive values. You might like 
+the effect, but it won't be anything like what we've just described.
+
+== hipass (f = a, b)
+
+With this equation the low values of Input b are filtered according to the value of Input a. This 
+causes somewhat different results compared with the lowpass equation above. At low values for 
+Input a, low values for Input b will have little effect, while high values for Input b will cause the 
+FUN to quickly reach full effect then slowly sweep down to its starting level. At high values for 
+Input a, a rapid change in the value of Input b will have little effect. At low values for Input a, 
+rapid changes in the value of Input b will cause the FUN to respond quickly to the change, then 
+slowly fade back to minimum effect. Listening to the effects at different values for each input 
+will give you the best understanding.
+The four graphs below show the effect of different values for Input a on the change of Input b. In 
+each graph, the value of Input b drops from +1 to 0. In graph 1, the value of Input a is +1. Each 
+successive graph represents the same change in the value of Input b, at successively lower 
+values for Input a.
