@@ -38,3 +38,14 @@ The actual equation is:  a x ( 10 ^(2 x b)^ /100).
 This is an exponential curve. 10 is raised to the (2 x b) power, then divided by 100. This result is then multiplied by a. Another way to express this is as follows: a change of 1 in the value of Input b 
 results in a hundredfold change in the output value. 
 Here are a few possible output values:
+
+
+== | a + b |
+
+The values of Inputs a and b are added, and the absolute value of the sum is taken. If the sum is 
+negative, it is multiplied by -1. This makes the FUN a unipolar control source.
+
+== | a - b |
+
+The value of Input b is subtracted from the value of Input a, and the absolute value is taken. If 
+the difference is negative, it is multiplied by -1. This also makes the FUN unipolar.
