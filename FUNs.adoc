@@ -136,3 +136,56 @@ The four graphs below show the effect of different values for Input a on the cha
 each graph, the value of Input b drops from +1 to 0. In graph 1, the value of Input a is +1. Each 
 successive graph represents the same change in the value of Input b, at successively lower 
 values for Input a.
+
+
+== b / (1 - a)
+This is another weighted difference equation similar to the first six. The value of Input a is 
+subtracted from 1. The value of Input b is then divided by the difference. You'll get considerably 
+different results for different input values of a and b.
+
+== a(b-y)
+
+Think of this equation as reading "y is replaced by the result of the function a(b-y)." The value of 
+y indicates the value of the FUN's output signal. Every 20 milliseconds, the K2600 takes the 
+current value of y, runs the equation, calculates a new value of y, and inserts the new value into 
+the equation. Consequently the value of y will change every twenty milliseconds. HereÕs an 
+example. When you play a note, the K2600 starts running the FUN. The Þrst value for y is 
+always 0. We'll assume the value of Input a is +.5, and the value of Input b is +1. The first time 
+the K2600 evaluates the FUN, the result of the equation is .5 x (+1 - 0), or .5. So the FUN's output 
+value after the first evaluation is .5. This becomes the new value for y, and when the K2600 does 
+its next evaluation of the FUN, the equation becomes .5 x (+1 - .5), or .25. The resulting output 
+value is .25, which becomes the new value for y. For the next evaluation, the equation is .5 x (+1- 
+.25), or .375.
+
+== (a + b)^2
+
+The values of Inputs a and b are added, and the result is squared (multiplied by itself). This will 
+change the linear curve of a unipolar control signal into a curve that's lower at its midpoint (by a 
+factor of 2). Bipolar control signals will generate curves that are high at both ends, and 0 in the 
+middle.
+
+=== sin (a + b), cos (a + b), tri (a + b)
+
+These equations are intended to be used with inputs that are sawtooth waves -- for example, 
+Input a might be LFO1 with its shape set as a sawtooth. Each equation will map a sawtooth-
+shaped input into a sine-, cosine-, or triangle-shaped output. Other input waveform shapes will 
+result in outputs with more complex waveform shapes.
+Other ways to get sawtooth shapes as inputs to these FUNs are to use other FUNs as the inputs, 
+with their equations set as any of the ramp equations described later in this section (see the note 
+on page 17-18 about the evaluation order of the FUNs). You could also use LFOph1 or LFOph2 
+as inputs. The first three graphs below show the result of these functions when Input a is a rising 
+sawtooth wave, and the value of Input b is 0. The fourth shows the result of the sin (f=a + b) 
+equation when the value of Input b is 0 and Input a is a sine wave.
+
+== Warp FUN Equations
+The next five equations all behave similarly, and are intended to be used as follows: the value of 
+Input a is the controlling value, and normally remains constant, although it doesn't have to. The 
+value of Input b is expected to change over time; Input b might be an LFO, for example. The 
+value for Input a affects how the FUN calculates its output value while the value of Input b 
+changes.
+
+=== warp1(a, b)
+We call this the Vari-slopeª equation. The value of Input a controls the mapping of values for 
+Input b. If Input b is a sawtooth wave, different values for Input a will change it into a triangle 
+wave. If Input b is a more complicated waveform, the output waveform is also more 
+complicated.
