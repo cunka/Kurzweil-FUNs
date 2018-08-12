@@ -191,12 +191,12 @@ wave. If Input b is a more complicated waveform, the output waveform is also mor
 complicated.
 
 === warp2(a, b)
-We call this equation Slant-square.(TM) Again, the value of Input a controls the mapping of values 
+We call this equation Slant-square(TM). Again, the value of Input a controls the mapping of values 
 for Input b. If Input b is a sawtooth wave, different values for Input a will turn it into a number 
 of variations on square waves.
 
 === warp3(a, b)
-We call this one the Variable Inverter.ª It looks at the binary numbers that represent the values 
+We call this one the Variable Inverter(TM). It looks at the binary numbers that represent the values 
 of Inputs a and b, compares the corresponding bits in each number, and performs an XOR 
 operation on them (we'll explain that below). The resulting number is converted into the output 
 value. This can produce some erratic results, but if variety is what you're after, this equation will 
@@ -209,7 +209,7 @@ both 1s, the result is 0. This process is repeated for the remaining 15 bits of 
 new 16-bit number is generated. This number represents the output value of the FUN.
 
 === warp4(a, b)
-This equation, the Period Inverter,(TM) is based on repeated evaluations of the value of Input b. 
+This equation, the Period Inverter(TM), is based on repeated evaluations of the value of Input b. 
 The K2600 compares each new value of Input b with the value from the previous evaluation. If 
 the absolute value (always a positive number) of the difference between the two is greater than 
 the value of Input a, the current value of Input b is multiplied by -1.
@@ -228,25 +228,53 @@ This relatively simple equation is a x b x 8. If the result is beyond the range 
 around from +1 to -1 (or vice versa), until it's within the allowable range. The table below shows 
 some examples of how this works.
 
-==Boolean FUN Equations
+== Boolean FUN Equations
 
-== a AND b
+=== a AND b
 
-The values of Inputs a and b are interpreted as logical quantitiesÑtheyÕre considered TRUE if 
-theyÕre greater than +.5, and FALSE otherwise. This turns the FUN into an on/off switch. In the 
+The values of Inputs a and b are interpreted as logical quantities -- they're considered TRUE if 
+they're greater than +.5, and FALSE otherwise. This turns the FUN into an on/off switch. In the 
 model we set up in the previous section, FUN1 was assigned to control Src1 on the PITCH page, 
-and Src1Õs depth was set to 1200 cents. With this equation, both Input a (the Mod Wheel in this 
+and Src1's depth was set to 1200 cents. With this equation, both Input a (the Mod Wheel in this 
 case) and Input b (the data slider in this case) would have to be more than halfway up for the 
 FUN to switch on. The pitch would jump 1200 cents as soon as both control sources moved 
 above their halfway points. As soon as one of them moved below its halfway point, the pitch 
 would jump back to its original level.
 This equation can be used to trigger ASRs, or as a layer enable control, or for any control source 
 that toggles on and off. If you set one of the inputs to an LFO, the FUN would switch on and off 
-every time the LFOÕs signal went above +.5 (as long as the other input was also above +.5).
+every time the LFO's signal went above +.5 (as long as the other input was also above +.5).
 
-==a OR b
+=== a OR b
 This equation is very similar to a AND b. The only difference is that the FUN will switch on 
 when the value of either Input a or Input b moves above +.5.
 
-== added this to test....
-Thanks for coming.
+== Sawtooth LFO FUN Equations
+
+The next six equations case the FUN to generate a sawtooth LFO as its output signal. Each 
+performs a different operation on the values of Inputs a and b, and the resulting value is 
+multiplied by 25. The result determines the frequency of the LFO. If the value is a positive 
+number, the LFO has a rising sawtooth shape. If the value is negative, the LFO has a falling 
+sawtooth shape. When the resulting values are large (above 10 or so), the output waveform is 
+not a pure sawtooth; a bit of distortion occurs.
+
+=== ramp(f=a + b)
+The values of Inputs a and b are added, then multiplied by 25.
+
+=== ramp(f=a - b)
+The value of Input b is subtracted from the value of Input a, and the difference is multiplied by 
+25.
+
+=== ramp(f=(a + b) / 4)
+The values of Inputs a and b are added, and the sum is divided by 4. This value is multiplied by 
+25.
+
+=== ramp(f=a * b)
+The values of Inputs a and b are multiplied, and the result is multiplied by 25.
+
+=== ramp(f=-a * b)
+The value of Input a is multiplied by -1, then multiplied by the value of Input b. The result is 
+multiplied by 25.
+
+=== ramp(f= a * 10^b)
+10 is raised to the power of b, then multiplied by the value of Input a. The result is multiplied by 
+25.
