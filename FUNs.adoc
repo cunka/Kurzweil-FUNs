@@ -185,7 +185,7 @@ value for Input a affects how the FUN calculates its output value while the valu
 changes.
 
 === warp1(a, b)
-We call this the Vari-slopeª equation. The value of Input a controls the mapping of values for 
+We call this the Vari-slope(TM) equation. The value of Input a controls the mapping of values for 
 Input b. If Input b is a sawtooth wave, different values for Input a will change it into a triangle 
 wave. If Input b is a more complicated waveform, the output waveform is also more 
 complicated.
