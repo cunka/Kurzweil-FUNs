@@ -148,8 +148,8 @@ different results for different input values of a and b.
 Think of this equation as reading "y is replaced by the result of the function a(b-y)." The value of 
 y indicates the value of the FUN's output signal. Every 20 milliseconds, the K2600 takes the 
 current value of y, runs the equation, calculates a new value of y, and inserts the new value into 
-the equation. Consequently the value of y will change every twenty milliseconds. HereÕs an 
-example. When you play a note, the K2600 starts running the FUN. The Þrst value for y is 
+the equation. Consequently the value of y will change every twenty milliseconds. Here's an 
+example. When you play a note, the K2600 starts running the FUN. The first value for y is 
 always 0. We'll assume the value of Input a is +.5, and the value of Input b is +1. The first time 
 the K2600 evaluates the FUN, the result of the equation is .5 x (+1 - 0), or .5. So the FUN's output 
 value after the first evaluation is .5. This becomes the new value for y, and when the K2600 does 
@@ -189,3 +189,61 @@ We call this the Vari-slope(TM) equation. The value of Input a controls the mapp
 Input b. If Input b is a sawtooth wave, different values for Input a will change it into a triangle 
 wave. If Input b is a more complicated waveform, the output waveform is also more 
 complicated.
+
+=== warp2(a, b)
+We call this equation Slant-square.(TM) Again, the value of Input a controls the mapping of values 
+for Input b. If Input b is a sawtooth wave, different values for Input a will turn it into a number 
+of variations on square waves.
+
+=== warp3(a, b)
+We call this one the Variable Inverter.ª It looks at the binary numbers that represent the values 
+of Inputs a and b, compares the corresponding bits in each number, and performs an XOR 
+operation on them (we'll explain that below). The resulting number is converted into the output 
+value. This can produce some erratic results, but if variety is what you're after, this equation will 
+give it to you. You'll get your best results when Input b is an LFO with a slow rate.
+The XOR operation is a subprogram that applies a truth table to each of the digits in the binary 
+numbers that represent the values of Inputs a and b. Each of these numbers is a string of 16 
+digits (bits); each bit is either a 0 or a 1. The subprogram looks at the first bit of each number. If 
+they're both 0s, the resulting value is 1. If one is a 0 and the other is a 1, the result is 1. If they're 
+both 1s, the result is 0. This process is repeated for the remaining 15 bits of each number, and a 
+new 16-bit number is generated. This number represents the output value of the FUN.
+
+=== warp4(a, b)
+This equation, the Period Inverter,(TM) is based on repeated evaluations of the value of Input b. 
+The K2600 compares each new value of Input b with the value from the previous evaluation. If 
+the absolute value (always a positive number) of the difference between the two is greater than 
+the value of Input a, the current value of Input b is multiplied by -1.
+The primary feature of this equation is that it will take a discontinuous signal and make it 
+continuous. If, for example, FUN1 uses an equation like a(y + b), its output can wrap around 
+from +1 to -1, or vice versa. You could set FUN1 as Input b for FUN2, set Input a of FUN2 to ON 
+(+1), and FUN2 would remove the discontinuity from the signal. The first graph below shows a 
+hypothetical output signal with such a discontinuity, and the second shows how FUN2 in this 
+case would make the signal continuous without drastically changing its shape.
+If, on the other hand you want the signal to become discontinuous, you can use the warp4(a, b) 
+equation in a single FUN, with Input a set to OFF (0), and the signal would be multiplied by -1 
+with each evaluation of Input b.
+
+=== warp8(a, b)
+This relatively simple equation is a x b x 8. If the result is beyond the range of -1 to +1, it wraps 
+around from +1 to -1 (or vice versa), until it's within the allowable range. The table below shows 
+some examples of how this works.
+
+==Boolean FUN Equations
+
+== a AND b
+
+The values of Inputs a and b are interpreted as logical quantitiesÑtheyÕre considered TRUE if 
+theyÕre greater than +.5, and FALSE otherwise. This turns the FUN into an on/off switch. In the 
+model we set up in the previous section, FUN1 was assigned to control Src1 on the PITCH page, 
+and Src1Õs depth was set to 1200 cents. With this equation, both Input a (the Mod Wheel in this 
+case) and Input b (the data slider in this case) would have to be more than halfway up for the 
+FUN to switch on. The pitch would jump 1200 cents as soon as both control sources moved 
+above their halfway points. As soon as one of them moved below its halfway point, the pitch 
+would jump back to its original level.
+This equation can be used to trigger ASRs, or as a layer enable control, or for any control source 
+that toggles on and off. If you set one of the inputs to an LFO, the FUN would switch on and off 
+every time the LFOÕs signal went above +.5 (as long as the other input was also above +.5).
+
+==a OR b
+This equation is very similar to a AND b. The only difference is that the FUN will switch on 
+when the value of either Input a or Input b moves above +.5.
