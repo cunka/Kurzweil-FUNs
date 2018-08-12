@@ -247,3 +247,6 @@ every time the LFOÕs signal went above +.5 (as long as the other input was also
 ==a OR b
 This equation is very similar to a AND b. The only difference is that the FUN will switch on 
 when the value of either Input a or Input b moves above +.5.
+
+== added this to test....
+Thanks for coming.
